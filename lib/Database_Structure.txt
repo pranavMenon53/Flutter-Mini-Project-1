@@ -1,0 +1,13 @@
+Collection 
+
+    1) student -> roll/id number 
+        ex : student -> collegeName -> data -> xyz@gmail.com -> {details of that student}
+
+    2) admin -> email 
+        ex : admin -> xyz@gmail.com -> {details of admin}
+
+    3) validKeys -> key
+        ex : validKeys -> key1
+    
+    4) validStudents -> email -> {collegeName,isRegistered}
+        ex -> validStudents -> xyz@gmail.com -> {collegeName,isRegistered}

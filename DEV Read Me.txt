@@ -1,0 +1,73 @@
+
+A temporary index.html file is included. connect your web app to your firebase app
+
+before you run, make sure you watch this video once to understand Gsign in better.
+    - https://firebase.google.com/docs/web/setup#available-libraries
+
+How To Run - 
+flutter run -d chrome --release --web-hostname localhost --web-port 5000
+
+Database structure - (Firebase)
+
+1) admin - collection
+    - Used to register admin users
+    - emailid(ex - xyz@gmail.com)  - document
+        - details(fields) according to User model
+
+2) student - collection
+    - Used to register student users
+    - This data is given by the college
+    - We register students only if they are a part of this collection
+    - Students should provide details matching with the ones provided by the college
+
+    - college name (ex - CVR)  - document
+        - emailid(ex - xyz@gmail.com)  - collection
+            - data - document
+            - details(fields) according to User model
+
+3) validKeys - collection
+    - used by admin users to register their account
+    - keys(ex - aWjh70) - document
+        - college name (ex - CVR) - field
+
+The rest of the collections are created Automatically.
+
+
+place these lines of code to register demo users in the database.
+in handleRegister() - main.dart
+
+void handleSignin(...)
+{
+    ..... rest of the code
+
+    List<Map<String, String>> data1 = [
+        {"email": "abc@gmail.com", "name": "abc", "id": "17b81a05j2"},
+        {"email": "typ@gmail.com", "name": "typ", "id": "17b81a05j3"},
+        {"email": "Bnmp@gmail.com", "name": "Bnmp", "id": "17b81a05j4"},
+        {"email": "Anxcv@gmail.com", "name": "Anxcv", "id": "17b81a05j5"},
+        {"email": "AEdFg@gmail.com", "name": "AEdFg", "id": "17b81a05j6"},
+        ];
+
+        data1.forEach((e) async {
+        await studentRef
+            .document("CVR")
+            .collection(e['email'])
+            .document('data')
+            .setData({
+            'email': e['email'],
+            'name': e['name'],
+            'id': e['id'],
+            'key': 'null',
+            "isRegistered": true,
+            "TcStatus": false,
+            "paymentStatus": false
+        });
+
+        await validStudentRef
+            .document(e['email'])
+            .setData({"college": 'CVR', "isRegistered": true});
+
+        });
+
+    ..... rest of the code
+}
